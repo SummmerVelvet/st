@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Timer App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Mode Selection Window -->
+    <div id="modeSelect">
+        <h1>Select Timer Mode</h1>
+        <div class="mode-buttons">
+            <button id="questionModeBtn">❓ Question Timer</button>
+            <button id="pageModeBtn">📚 Page Timer</button>
+            <button id="writePageModeBtn">✍️ Page Writing</button>
+        </div>
+    </div>
+
+    <!-- Question Timer Windows -->
+    <div id="questionTimer" style="display: none;">
+        <!-- Window 1 - Set Session Time -->
+        <div id="window1">
+            <h1>Set Your Session Time</h1>
+            <label>
+                <span>Session Name: </span><input type="text" id="questionSessionName" placeholder="Enter session name">
+            </label>
+            <label>
+                <span>Starting Question: </span><input type="number" id="startQuestion" min="1" value="1">
+            </label>
+            <label>
+                <span>Hours: </span><input type="number" id="hours" min="0" value="0">
+            </label>
+            <label>
+                <span>Minutes: </span><input type="number" id="minutes" min="0" value="0">
+            </label>
+            <label>
+                <span>Seconds: </span><input type="number" id="seconds" min="0" value="0">
+            </label>
+            <label>
+                <span>Target Questions: </span>
+                <input type="number" id="targetQuestions" min="1" placeholder="Optional">
+            </label>
+            <button id="startButton">Start Session</button>
+        </div>
+
+        <!-- Window 2 - Session In Progress -->
+        <div id="window2" style="display: none;">
+            <h1>Session in Progress</h1>
+            <p>Time Remaining: <span id="timerDisplay">0h 0m 0s</span></p>
+            <div class="counters">
+                <p>Questions Solved ✅: <span id="questionCount">0</span></p>
+                <p>Questions Skipped ⏭️: <span id="skippedCount">0</span></p>
+                <p>Questions with Doubt ❓: <span id="doubtCount">0</span></p>
+                <p>Current Streak: <span id="currentStreak">0</span> 🔥</p>
+                <p>Best Streak: <span id="bestStreak">0</span> ⭐</p>
+            </div>
+            <div id="goalProgressContainer" style="display: none;" class="goal-progress">
+                <p>Goal Progress 🎯</p>
+                <div class="progress-bar">
+                    <div id="goalProgress" class="progress"></div>
+                    <span id="progressText">0%</span>
+                </div>
+            </div>
+            <div class="timestamps-container">
+                <h2>Questions Time Log: 📝</h2>
+                <ul id="timestamps"></ul>
+            </div>
+            <button id="endButton">End Session</button>
+        </div>
+
+        <!-- Window 3 - Session Summary -->
+        <div id="window3" style="display: none;">
+            <h1>Session Summary</h1>
+            <div class="summary-tabs">
+                <button class="tab-btn active" data-tab="general">General</button>
+                <button class="tab-btn" data-tab="solved">Solved Questions</button>
+                <button class="tab-btn" data-tab="skipped">Skipped Questions</button>
+                <button class="tab-btn" data-tab="doubt">Doubt Questions</button>
+                <button class="tab-btn" data-tab="distribution">Distribution</button>
+            </div>
+            
+            <div id="generalTab" class="tab-content active">
+                <p>Questions Solved: <span id="totalQuestions">0</span></p>
+                <p>Questions Skipped: <span id="totalSkipped">0</span></p>
+                <p>Average Time Per Question: <span id="averageTime">-</span></p>
+                <p>Min Time Spent: <span id="minTime">-</span></p>
+                <p>Max Time Spent: <span id="maxTime">-</span></p>
+                <p>Session Length: <span id="sessionLength">-</span></p>
+                <p>Best Streak: <span id="finalBestStreak">0</span> ⭐</p>
+                <div id="goalResultContainer" style="display: none;">
+                    <p>Goal Status: <span id="goalStatus">-</span></p>
+                </div>
+                <!-- Add Question Calculator -->
+                <div class="question-calculator">
+                    <h2>Question Time Calculator 🔢</h2>
+                    <label>
+                        <span>Number of Questions: </span>
+                        <input type="number" id="endWindowQuestionCount" min="1">
+                    </label>
+                    <p>Estimated Time: <span id="endWindowEstimatedTime">-</span></p>
+                </div>
+            </div>
+            
+            <div id="solvedTab" class="tab-content">
+                <div id="timePerQuestion" class="table-container"></div>
+            </div>
+            
+            <div id="skippedTab" class="tab-content">
+                <div id="skippedQuestions" class="table-container"></div>
+            </div>
+            
+            <div id="doubtTab" class="tab-content">
+                <div id="doubtQuestions" class="table-container"></div>
+            </div>
+            
+            <div id="distributionTab" class="tab-content">
+                <div class="pie-chart-container">
+                    <canvas id="questionDistribution"></canvas>
+                </div>
+            </div>
+            
+            <button id="exportQuestionData">Export Data</button>
+            <button id="restartButton">Start New Session</button>
+            <button id="backToModeSelect">Change Mode</button>
+        </div>
+    </div>
+
+    <!-- Page Timer Windows -->
+    <div id="pageTimer" style="display: none;">
+        <!-- Page Timer Window 1 -->
+        <div id="pageWindow1">
+            <h1>Start Reading Session</h1>
+            <label>
+                <span>Session Name: </span><input type="text" id="pageSessionName" placeholder="Enter session name">
+            </label>
+            <label>
+                <span>Starting Page: </span>
+                <input type="number" id="startPage" min="1" value="1">
+            </label>
+            <button id="startPageSession">Start Reading</button>
+        </div>
+
+        <!-- Page Timer Window 2 -->
+        <div id="pageWindow2" style="display: none;">
+            <h1>Reading in Progress</h1>
+            <p>Time Elapsed: <span id="pageTimerDisplay">0:00:00</span></p>
+            <p>Current Page: <span id="currentPage">0</span></p>
+            <div class="timestamps-container">
+                <h2>Pages Time Log:</h2>
+                <ul id="pageTimestamps"></ul>
+            </div>
+            <button id="endPageSession">End Reading Session</button>
+        </div>
+
+        <!-- Page Timer Window 3 -->
+        <div id="pageWindow3" style="display: none;">
+            <h1>Reading Summary</h1>
+            <div class="reading-summary">
+                <p>Total Pages Read: <span id="totalPages">0</span></p>
+                <p>Average Time Per Page: <span id="avgTimePerPage">-</span></p>
+                <p>Total Reading Time: <span id="totalReadingTime">-</span></p>
+                <div id="pageTimesTable" class="table-container"></div>
+                
+                <div class="book-calculator">
+                    <h2>Reading Time Calculator</h2>
+                    <label>
+                        <span>Total Book Pages: </span>
+                        <input type="number" id="totalBookPages" min="1">
+                    </label>
+                    <p>Estimated Reading Time: <span id="estimatedTime">-</span></p>
+                </div>
+            </div>
+            <button id="exportPageData">Export Data</button>
+            <button id="restartPageTimer">Start New Reading Session</button>
+            <button id="backToModeSelect">Change Mode</button>
+        </div>
+    </div>
+
+    <!-- Page Writing Timer Windows -->
+    <div id="writePageTimer" style="display: none;">
+        <!-- Page Writing Window 1 -->
+        <div id="writePageWindow1">
+            <h1>Start Writing Session</h1>
+            <label>
+                <span>Session Name: </span><input type="text" id="writePageSessionName" placeholder="Enter session name">
+            </label>
+            <label>
+                <span>Starting Page: </span>
+                <input type="number" id="writeStartPage" min="1" value="1">
+            </label>
+            <button id="startWritePageSession">Start Writing</button>
+        </div>
+
+        <!-- Page Writing Window 2 -->
+        <div id="writePageWindow2" style="display: none;">
+            <h1>Writing in Progress</h1>
+            <p>Time Elapsed: <span id="writePageTimerDisplay">0:00:00</span></p>
+            <p>Current Page: <span id="writeCurrentPage">0</span></p>
+            <div class="timestamps-container">
+                <h2>Pages Time Log:</h2>
+                <ul id="writePageTimestamps"></ul>
+            </div>
+            <button id="endWritePageSession">End Writing Session</button>
+        </div>
+
+        <!-- Page Writing Window 3 -->
+        <div id="writePageWindow3" style="display: none;">
+            <h1>Writing Summary</h1>
+            <div class="writing-summary">
+                <p>Total Pages Written: <span id="totalPagesWritten">0</span></p>
+                <p>Average Time Per Page: <span id="avgTimePerWrittenPage">-</span></p>
+                <p>Total Writing Time: <span id="totalWritingTime">-</span></p>
+                <div id="writePageTimesTable" class="table-container"></div>
+                
+                <div class="book-calculator">
+                    <h2>Writing Time Calculator</h2>
+                    <label>
+                        <span>Total Pages to Write: </span>
+                        <input type="number" id="totalWritePages" min="1">
+                    </label>
+                    <p>Estimated Writing Time: <span id="estimatedWriteTime">-</span></p>
+                </div>
+            </div>
+            <button id="exportWritePageData">Export Data</button>
+            <button id="restartWritePageTimer">Start New Writing Session</button>
+            <button id="backToModeSelect">Change Mode</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
