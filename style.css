@@ -31,12 +31,7 @@ body {
     margin-top: 30px;
 }
 
-.credits {
-    font-size: 11px;
-    color: #444;
-    opacity: 0.5;
-    margin-top: 40px;
-    font-weight: normal;
+
 
 .mode-buttons button {
     padding: 20px 40px;
@@ -51,6 +46,13 @@ body {
     gap: 10px;
     font-size: 24px;
 }
+
+.credits {
+    font-size: 11px;
+    color: #6A57B7;
+    opacity: 0.5;
+    margin-top: 40px;
+    font-weight: normal;
 
 h1 {
     font-size: 30px;
