@@ -760,6 +760,8 @@ function exportWritePageData() {
     downloadCSV(csvContent, `writing_session_${writePageSessionName}_${new Date().toISOString().split('T')[0]}.csv`);
 }
 
+
+
 // Add event listeners for export buttons
 document.getElementById('exportQuestionData').addEventListener('click', exportQuestionData);
 document.getElementById('exportPageData').addEventListener('click', exportPageData);
