@@ -31,8 +31,6 @@ body {
     margin-top: 30px;
 }
 
-
-
 .mode-buttons button {
     padding: 20px 40px;
     font-size: 20px;
@@ -46,13 +44,6 @@ body {
     gap: 10px;
     font-size: 24px;
 }
-
-.credits {
-    font-size: 11px;
-    color: #6A57B7;
-    opacity: 0.5;
-    margin-top: 40px;
-    font-weight: normal;
 
 h1 {
     font-size: 30px;
@@ -141,8 +132,8 @@ button:hover {
 }
 
 .credits {
-    font-size: 11px;
-    color: #444;
+    font-size: 14px;
+    color: #ffffff;
     opacity: 0.5;
     margin-top: 40px;
     font-weight: normal;
