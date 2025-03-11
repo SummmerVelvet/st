@@ -1,2 +1,2 @@
 # st
-Stdy Tracker made by a friend
+Study Tracker made by a friend
